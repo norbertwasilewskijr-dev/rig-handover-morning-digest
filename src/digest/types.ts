@@ -14,11 +14,11 @@ export type DigestRow = {
   fails: number;
   /** Status of the most recently recorded entry. */
   lastStatus: RunStatus;
-  /** Error of the most recently recorded entry; `null` when that entry has none. */
+  /** Last recorded error, retained after recovery; `null` if none was recorded. */
   lastError: string | null;
-  /** `at` of the earliest record, as in the log (offset preserved, never converted to UTC). */
+  /** `at` of the first record in file order, with its offset unchanged. */
   firstAt: string;
-  /** `at` of the latest record, as in the log (offset preserved, never converted to UTC). */
+  /** `at` of the last record in file order, with its offset unchanged. */
   lastAt: string;
 };
 
