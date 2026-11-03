@@ -77,3 +77,14 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issues
+
+1. [Define DigestRow and the readNight contract](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/1)
+2. [Implement the run-log reader and reader tests](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/2)
+3. [Build GET /digest/:night](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/3)
+4. [Build GET /api/digest/:night](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/4)
+5. [Link nights and counts from the status board](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/5)
+6. [Add digest page and JSON route tests](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/6)
+7. [Save and publish the marked preview for review](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/7)
+8. [Remove the preview marker and archive the finished plan](https://github.com/norbertwasilewskijr-dev/rig-handover-morning-digest/issues/8)
