@@ -67,7 +67,7 @@ function writeNight(night: string, content: string, dir = runsDir) {
 
 const strip = (s: string) =>
   s
-    .replace(/<[^>]*>/g, '')
+    .replace(/<[^>]*>/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
@@ -193,6 +193,7 @@ describe('GET /digest/:night', () => {
         e.lastError ?? EM_DASH,
         e.firstAt,
         e.lastAt,
+        e.retries >= 3 ? `${e.retries} retries (3 or more)` : e.fails > 0 ? `${e.fails} fail` : EM_DASH,
       ]);
     });
   });
@@ -232,7 +233,7 @@ describe('GET /digest/:night', () => {
     const res = await makeApp().request(`/digest/${BAD_NIGHT}`);
     expect(res.status).toBe(200);
     const text = strip(await res.text());
-    expect(text).toMatch(/\b1\b[^.\n]*bad line|bad lines?\D{0,10}\b1\b/i);
+    expect(text).toContain('1 line in the log could not be read and was skipped.');
     expect(text).toContain('a/job');
   });
 
@@ -242,7 +243,7 @@ describe('GET /digest/:night', () => {
     expect(res.status).toBe(200);
     const html = await res.text();
     expect(html).toContain('nothing ran');
-    expect(strip(html)).toMatch(/\b2\b[^.\n]*bad line|bad lines?\D{0,10}\b2\b/i);
+    expect(strip(html)).toContain('2 lines in the log could not be read and were skipped.');
   });
 
   it.each(['2026-02-30', '2026-13-01', '2026-00-10', '2026-1-1', 'not-a-night', '..%2Fpackage', '..%2F..%2Fetc%2Fpasswd', '%2e%2e%2f%2e%2e%2fpackage'])(
@@ -280,8 +281,8 @@ describe('status board digest links', () => {
     const counts = (entry: string) => {
       const text = strip(entry);
       const n = (word: string) => {
-        const m = text.match(new RegExp(`${word}\\D{0,3}(\\d+)|(\\d+)\\s*${word}`, 'i'));
-        return m ? Number(m[1] ?? m[2]) : null;
+        const m = text.match(new RegExp(`\\b${word}\\s+(\\d+)\\b`, 'i'));
+        return m ? Number(m[1]) : null;
       };
       return { ok: n('ok'), retry: n('retry'), fail: n('fail') };
     };
